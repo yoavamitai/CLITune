@@ -16,7 +16,10 @@ def get_args() -> Namespace:
     """
     parser: argparse.ArgumentParser = argparse.ArgumentParser()
     parser.add_argument(
-        "--path", type=str, required=True, help="Path to the music folder to play"
+        "--path", type=str, required=True, help="Path to the music folder to play",
+    )
+    parser.add_argument(
+        '--shuffle', action='store_true', required=False, help="Shuffle music in folder"
     )
     args: Namespace = parser.parse_args()
     return args
@@ -27,7 +30,7 @@ def main() -> None:
     Run the Music Player
     """
     arguments = get_args()
-    music_player = MusicPlayer(music_folder_path=arguments.path)
+    music_player = MusicPlayer(music_folder_path=arguments.path, shuffle=arguments.shuffle)
 
 
 if __name__ == "__main__":

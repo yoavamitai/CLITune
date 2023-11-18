@@ -6,6 +6,7 @@ Author: Yoav Amitai
 import glob
 from itertools import chain
 import os
+import random
 from typing import List, NoReturn
 
 import keyboard as kb
@@ -20,7 +21,7 @@ from util.play_state_enum import PlayStateEnum
 class MusicPlayer:
     """Music Player class."""
 
-    def __init__(self, music_folder_path: str) -> None:
+    def __init__(self, music_folder_path: str, shuffle: bool) -> None:
         """
         Initializes a MusicPlayer object.
 
@@ -43,6 +44,8 @@ class MusicPlayer:
         self.current_song: int = 0
         self.playlist: List[Song] = []
         self.__load_songs()
+        if shuffle:
+            random.shuffle(self.playlist)
         self.__add_keyboard_shortcuts()
 
     def __load_songs(self) -> None:
