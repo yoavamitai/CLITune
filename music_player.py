@@ -66,8 +66,8 @@ class MusicPlayer:
         The function adds keyboard shortcuts for various actions in a music player.
         """
         kb.add_hotkey("p", self.toggle_pause)
-        # kb.add_hotkey("r", lambda: PLAYER.music.rewind())
-        # kb.add_hotkey("s", lambda: PLAYER.music.stop())
+        kb.add_hotkey("r", self.rewind)
+        kb.add_hotkey("s", self.stop)
         kb.add_hotkey("v", self.prev_track)
         kb.add_hotkey("n", self.next_track)
         kb.add_hotkey("+", self.increase_volume)
