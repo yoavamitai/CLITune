@@ -4,16 +4,21 @@ Purpose: The CLI UI component
 Author: Yoav Amitai
 """
 
-from rich.layout import Layout
-from rich.align import Align
-from rich.panel import Panel
-from rich.live import Live
-from rich.table import Table
+from typing import List
+
 from rich import box
+from rich import table
+from rich.align import Align
+from rich.layout import Layout
+from rich.live import Live
+from rich.panel import Panel
+from rich.table import Table
 
+from song import Song
 from util.theme import Theme
+from util.time_format import time_format
 
-###   Think about using rich-pixels
+
 class UIPlayer:
     """Player
     The UI Component of the music player
@@ -58,7 +63,8 @@ class UIPlayer:
         )
 
         layout["media_controls"].split_column(
-            Layout(name="song_list", size=10), Layout(name="media_buttons")
+            Layout(name="playlist", size=10), 
+            Layout(name="media_buttons")
         )
 
         layout["media_buttons"].update(
@@ -83,3 +89,24 @@ class UIPlayer:
             )
         )
         return layout
+
+    def draw_playlist(self, playlist: List[Song], currently_playing_idx: int) -> Panel:
+        curr_song: Song = playlist[currently_playing_idx]
+        
+        playlist_table = Table(
+            show_lines=False,\
+            box=box.SIMPLE,
+            border_style=self.theme.panel_border
+        )
+        playlist_table.add_column("Title", style="cyan")
+        playlist_table.add_column("Artist", style="white")
+        playlist_table.add_column("Duration", justify="right", style="green")
+        
+        for song in playlist:
+            playlist_table.add_row(song.title, song.artist, time_format(song.duration)) # type: ignore
+        
+        return Panel(
+            table,
+            border_style=self.theme.panel_border,
+            title="[#feff6e]Queue"
+        )
